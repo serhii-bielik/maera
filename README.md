@@ -12,27 +12,31 @@ Open source traffic distribution system.
 
 ## Quick Start
 
-\`\`\`bash
-
 # Install dependencies
 
+```bash
 pnpm install
+```
 
 # Start infrastructure
 
+```bash
 docker compose -f docker-compose.dev.yml up -d
+```
 
 # Setup database
 
+```bash
 pnpm db:migrate
 pnpm db:seed
+```
 
 # Start development
 
+```bash
 pnpm dev
-\`\`\`
+```
 
 ## License
 
-MIT
-\`\`\`
+[MIT](https://choosealicense.com/licenses/mit/)

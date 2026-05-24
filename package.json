@@ -1,0 +1,30 @@
+{
+  "name": "maera",
+  "version": "0.1.0",
+  "description": "Open source traffic distribution system",
+  "scripts": {
+    "dev": "pnpm --parallel --filter './packages/*' dev",
+    "build": "pnpm --filter './packages/*' build",
+    "test": "pnpm --filter './packages/*' test",
+    "lint": "pnpm --filter './packages/*' lint",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "prettier": "^3.2.0",
+    "typescript": "^5.4.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.2.2",
+      "onFail": "download"
+    }
+  }
+}

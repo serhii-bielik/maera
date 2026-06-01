@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum RotationType {
+  SEQUENTIAL
+  WEIGHTED
+}
+
+enum FlowType {
+  URL
+  ACTION
+}
+
+enum RedirectType {
+  HTTP_301
+  HTTP_302
+  META
+  JS
+}
+
+enum ActionType {
+  NOT_FOUND
+  FORBIDDEN
+  SHOW_HTML
+  SHOW_TEXT
+}
+
+enum FilterType {
+  COUNTRY
+  LANGUAGE
+  USER_AGENT
+  BOT
+  UNIQUE
+  GEO_GROUP
+  IP
+  DEVICE_TYPE
+  OS
+}
+
+enum FilterMode {
+  IS
+  IS_NOT
+}
+
+enum FilterLogic {
+  AND
+  OR
+}
+
+enum UniquenessType {
+  IP_USER_AGENT
+  IP_ONLY
+  PARAMETER
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model User {
+  id        String         @id @default(cuid())
+  email     String         @unique
+  password  String
+  name      String?
+  role      Role           @default(USER)
+  isActive  Boolean        @default(true)
+  campaigns CampaignUser[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([email])
+}
+
+model CampaignGroup {
+  id        String     @id @default(cuid())
+  name      String
+  isActive  Boolean    @default(true)
+  campaigns Campaign[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Campaign {
+  id             String         @id @default(cuid())
+  name           String
+  alias          String         @unique
+  groupId        String?
+  group          CampaignGroup? @relation(fields: [groupId], references: [id], onDelete: SetNull)
+  rotation       RotationType   @default(SEQUENTIAL)
+  uniqueness     UniquenessType @default(IP_USER_AGENT)
+  uniquenessTtl  Int            @default(24)
+  useCookies     Boolean        @default(true)
+  isActive       Boolean        @default(true)
+  notes          String?
+  flows          Flow[]
+  clicks         Click[]
+  users          CampaignUser[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([alias])
+  @@index([isActive])
+}
+
+model CampaignUser {
+  campaignId String
+  userId     String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([campaignId, userId])
+}
+
+model Flow {
+  id            String       @id @default(cuid())
+  campaignId    String
+  campaign      Campaign     @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  name          String
+  type          FlowType     @default(URL)
+  position      Int          @default(0)
+  weight        Int          @default(100)
+  isActive      Boolean      @default(true)
+  isDefault     Boolean      @default(false)
+  collectClicks Boolean      @default(true)
+  notes         String?
+
+  // URL тип
+  url          String?
+  redirectType RedirectType?
+
+  // ACTION тип
+  action        ActionType?
+  actionContent String?
+
+  // Логика фильтров
+  filterLogic FilterLogic @default(AND)
+  filters     Filter[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([campaignId, position])
+  @@index([campaignId, isActive])
+  @@index([isDefault])
+}
+
+model Filter {
+  id     String     @id @default(cuid())
+  flowId String
+  flow   Flow       @relation(fields: [flowId], references: [id], onDelete: Cascade)
+  type   FilterType
+  mode   FilterMode @default(IS)
+  values Json
+
+  @@index([flowId])
+}
+
+model GeoGroup {
+  id        String   @id @default(cuid())
+  name      String
+  countries String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Click {
+  id         String   @id @default(cuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  flowId     String?
+  ip         String
+  country    String?
+  city       String?
+  language   String?
+  userAgent  String?
+  device     String?
+  os         String?
+  browser    String?
+  referrer   String?
+  isBot      Boolean  @default(false)
+  isUnique   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([campaignId, createdAt])
+  @@index([createdAt])
+  @@index([isBot])
+}
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}

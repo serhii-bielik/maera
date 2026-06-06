@@ -288,7 +288,7 @@ importers:
         specifier: ^1.4.0
         version: 1.6.1(@types/node@20.19.41)
 
-  packages/tracker copy:
+  packages/worker:
     dependencies:
       '@maera/shared':
         specifier: workspace:*
@@ -296,68 +296,25 @@ importers:
       '@prisma/adapter-pg':
         specifier: '*'
         version: 7.8.0
-      bullmq:
-        specifier: ^5.7.0
-        version: 5.77.7
-      dotenv:
-        specifier: ^16.4.0
-        version: 16.6.1
-      fastify:
-        specifier: ^4.27.0
-        version: 4.29.1
-      ioredis:
-        specifier: ^5.3.2
-        version: 5.11.0
-      ua-parser-js:
-        specifier: ^1.0.38
-        version: 1.0.41
-    devDependencies:
-      '@types/node':
-        specifier: ^20.0.0
-        version: 20.19.41
-      '@types/ua-parser-js':
-        specifier: ^0.7.39
-        version: 0.7.39
-      tsx:
-        specifier: ^4.7.0
-        version: 4.22.4
-      typescript:
-        specifier: ^5.4.0
-        version: 5.9.3
-      vitest:
-        specifier: ^1.4.0
-        version: 1.6.1(@types/node@20.19.41)
-
-  packages/tracker copy 2:
-    dependencies:
-      '@maera/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@prisma/adapter-pg':
+      '@prisma/client':
         specifier: '*'
-        version: 7.8.0
+        version: 7.8.0(prisma@7.8.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@5.9.3))(typescript@5.9.3)
       bullmq:
         specifier: ^5.7.0
         version: 5.77.7
       dotenv:
         specifier: ^16.4.0
         version: 16.6.1
-      fastify:
-        specifier: ^4.27.0
-        version: 4.29.1
       ioredis:
         specifier: ^5.3.2
         version: 5.11.0
-      ua-parser-js:
-        specifier: ^1.0.38
-        version: 1.0.41
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.41
-      '@types/ua-parser-js':
-        specifier: ^0.7.39
-        version: 0.7.39
+      dotenv-cli:
+        specifier: ^7.4.0
+        version: 7.4.4
       tsx:
         specifier: ^4.7.0
         version: 4.22.4
@@ -1222,6 +1179,14 @@ packages:
   dotenv-cli@11.0.0:
     resolution: {integrity: sha512-r5pA8idbk7GFWuHEU7trSTflWcdBpQEK+Aw17UrSHjS6CReuhrrPcyC3zcQBPQvhArRHnBo/h6eLH1fkCvNlww==}
     hasBin: true
+
+  dotenv-cli@7.4.4:
+    resolution: {integrity: sha512-XkBYCG0tPIes+YZr4SpfFv76SQrV/LeCE8CI7JSEMi3VR9MvTihCGTOtbIexD6i2mXF+6px7trb1imVCXSNMDw==}
+    hasBin: true
+
+  dotenv-expand@10.0.0:
+    resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
+    engines: {node: '>=12'}
 
   dotenv-expand@12.0.3:
     resolution: {integrity: sha512-uc47g4b+4k/M/SeaW1y4OApx+mtLWl92l5LMPP0GNXctZqELk+YGgOPIIC5elYmUH4OuoK3JLhuRUYegeySiFA==}
@@ -2538,6 +2503,15 @@ snapshots:
       dotenv: 17.4.2
       dotenv-expand: 12.0.3
       minimist: 1.2.8
+
+  dotenv-cli@7.4.4:
+    dependencies:
+      cross-spawn: 7.0.6
+      dotenv: 16.6.1
+      dotenv-expand: 10.0.0
+      minimist: 1.2.8
+
+  dotenv-expand@10.0.0: {}
 
   dotenv-expand@12.0.3:
     dependencies:

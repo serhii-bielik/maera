@@ -1,22 +1,8 @@
 import { Queue } from 'bullmq'
 import { redis } from '../lib/redis'
-import { CLICK_QUEUE_NAME } from '@maera/shared'
+import { CLICK_QUEUE_NAME, type ClickJob } from '@maera/shared'
 
-export interface ClickJob {
-  campaignId: string
-  flowId: string | null
-  ip: string
-  country: string | null
-  city: string | null
-  language: string | null
-  userAgent: string | null
-  browser: string | null
-  os: string | null
-  device: string | null
-  referrer: string | null
-  isBot: boolean
-  isUnique: boolean
-}
+export { type ClickJob }
 
 export const clickQueue = new Queue<ClickJob>(CLICK_QUEUE_NAME, {
   connection: redis,

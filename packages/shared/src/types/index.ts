@@ -90,3 +90,20 @@ export interface PaginatedResponse<T> {
   perPage: number
   totalPages: number
 }
+
+// Тип для jobs в очереди
+export interface ClickJob {
+  campaignId: string
+  flowId: string | null
+  ip: string
+  country: string | null
+  city: string | null
+  language: string | null
+  userAgent: string | null
+  browser: string | null
+  os: string | null
+  device: string | null
+  referrer: string | null
+  isBot: boolean
+  isUnique: boolean
+}

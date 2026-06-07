@@ -5,7 +5,7 @@ const PORT = parseInt(process.env.TRACKER_PORT ?? '3000')
 const HOST = process.env.HOST ?? '0.0.0.0'
 
 async function start() {
-  const app = buildApp()
+  const app = await buildApp() // ← добавь await
 
   try {
     await app.listen({ port: PORT, host: HOST })
@@ -16,4 +16,7 @@ async function start() {
   }
 }
 
-start()
+start().catch((err) => {
+  console.error('Failed to start tracker:', err)
+  process.exit(1)
+})

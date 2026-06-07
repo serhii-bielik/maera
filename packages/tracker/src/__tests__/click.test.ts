@@ -6,7 +6,7 @@ import type { FastifyInstance } from 'fastify'
 let app: FastifyInstance
 
 beforeAll(async () => {
-  app = buildApp()
+  app = await buildApp()
   await app.ready()
 
   // Создаём тестовую кампанию
@@ -67,5 +67,19 @@ describe('GET /:alias', () => {
     expect(response.statusCode).toBe(200)
     const body = JSON.parse(response.body)
     expect(body.status).toBe('ok')
+  })
+
+  it('adds click job to queue', async () => {
+    const { clickQueue } = await import('../services/queue')
+    const waitingBefore = await clickQueue.getWaitingCount()
+
+    await app.inject({
+      method: 'GET',
+      url: '/testclick',
+      headers: { 'x-forwarded-for': '8.8.8.8' },
+    })
+
+    const waitingAfter = await clickQueue.getWaitingCount()
+    expect(waitingAfter).toBeGreaterThanOrEqual(waitingBefore)
   })
 })

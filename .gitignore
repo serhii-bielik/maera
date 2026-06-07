@@ -2,8 +2,11 @@ node_modules/
 dist/
 .env
 .env.local
+.idea/
+.vscode/
 generated/
 *.log
 .DS_Store
 coverage/
 generated/
+*.mmdb

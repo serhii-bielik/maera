@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@maera/shared": "workspace:*",
+    "@maxmind/geoip2-node": "^6.3.4",
     "@prisma/adapter-pg": "*",
     "bullmq": "^5.7.0",
     "dotenv": "^16.4.0",

@@ -1,0 +1,31 @@
+{
+  "name": "@maera/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "dotenv -e .env.test -- vitest run",
+    "test:watch": "dotenv -e .env.test -- vitest"
+  },
+  "dependencies": {
+    "@maera/shared": "workspace:*",
+    "@prisma/adapter-pg": "*",
+    "@prisma/client": "*",
+    "fastify": "^4.27.0",
+    "@fastify/cors": "^9.0.0",
+    "@fastify/jwt": "^8.0.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20.0.0",
+    "dotenv-cli": "^7.4.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}
